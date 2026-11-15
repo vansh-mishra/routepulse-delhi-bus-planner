@@ -1,0 +1,37 @@
+{% extends 'base.html' %}
+{% block title %}RoutePulse — Know your bus journey before you go{% endblock %}
+{% block content %}
+<section class="hero-section">
+  <div class="wrap hero-grid">
+    <div class="hero-copy">
+      <div class="eyebrow"><span class="status-dot"></span> TRANSPORT STACK HACKATHON 2026 <span class="eyebrow-divider">/</span> PROBLEM 01</div>
+      <h1>Delhi bus journeys,<br><span>with more certainty.</span></h1>
+      <p class="hero-lede">Compare scheduled bus options, see the route on a map, and understand demand patterns before you leave.</p>
+      <div class="hero-actions"><a class="button button-primary button-large" href="{{ url_for('demo') }}">Plan a journey <span class="arrow">↗</span></a><a class="text-link" href="{{ url_for('insights') }}">Explore the data <span>→</span></a></div>
+      <div class="hero-proof"><div class="proof-avatars"><span>D</span><span>T</span><span>C</span></div><span>Built on Delhi transit data</span><span class="proof-sep">·</span><span>Public demo, no account needed</span></div>
+    </div>
+    <div class="hero-art" aria-label="Illustration of a bus route across a city map">
+      <div class="art-topline"><span>DELHI TRANSIT NETWORK</span><span class="live-label"><i></i> DATA-LED PLANNING</span></div>
+      <svg class="city-map" viewBox="0 0 620 460" role="img" aria-label="Stylised route map with stops">
+        <defs><pattern id="grid" width="38" height="38" patternUnits="userSpaceOnUse"><path d="M38 0H0V38" fill="none" stroke="#dbe5f0" stroke-width="1"/></pattern></defs>
+        <rect width="620" height="460" fill="url(#grid)"/>
+        <g fill="none" stroke="#e5ebf2" stroke-width="12" stroke-linecap="round"><path d="M-30 90L150 145 248 97 390 156 650 82"/><path d="M-30 300L115 260 220 300 345 250 650 330"/><path d="M80 -20L130 130 100 250 185 480"/><path d="M310 -20L270 90 350 200 315 480"/><path d="M500 -20L465 130 510 250 470 480"/></g>
+        <g fill="none" stroke="#d4dee9" stroke-width="2"><path d="M-30 90L150 145 248 97 390 156 650 82"/><path d="M-30 300L115 260 220 300 345 250 650 330"/><path d="M80 -20L130 130 100 250 185 480"/><path d="M310 -20L270 90 350 200 315 480"/><path d="M500 -20L465 130 510 250 470 480"/></g>
+        <path d="M86 355C132 325 145 250 220 240S300 292 363 220 434 127 544 132" fill="none" stroke="#b7d4ff" stroke-width="15" stroke-linecap="round"/>
+        <path d="M86 355C132 325 145 250 220 240S300 292 363 220 434 127 544 132" fill="none" stroke="#2162cf" stroke-width="6" stroke-linecap="round" stroke-dasharray="1 0"/>
+        <path d="M220 240Q280 195 363 220" fill="none" stroke="#fff" stroke-width="2" stroke-dasharray="5 7"/>
+        <g><circle cx="86" cy="355" r="12" fill="#fff" stroke="#2162cf" stroke-width="5"/><circle cx="220" cy="240" r="9" fill="#fff" stroke="#2162cf" stroke-width="4"/><circle cx="363" cy="220" r="9" fill="#fff" stroke="#2162cf" stroke-width="4"/><circle cx="544" cy="132" r="12" fill="#fff" stroke="#2162cf" stroke-width="5"/></g>
+        <g font-family="DM Sans" font-size="12" fill="#516278" font-weight="600"><text x="55" y="388">ORIGIN</text><text x="178" y="215">TRANSFER</text><text x="510" y="105">DESTINATION</text></g>
+        <g transform="translate(304 178)"><rect x="0" y="0" width="86" height="35" rx="10" fill="#fff" stroke="#e2eaf2"/><path d="M17 23V12c0-2 1.5-3.5 3.5-3.5h29c2 0 3.5 1.5 3.5 3.5v11M17 15h36M21 27h27" stroke="#2162cf" stroke-width="2" fill="none" stroke-linecap="round"/><circle cx="25" cy="25" r="3" fill="#2162cf"/><circle cx="48" cy="25" r="3" fill="#2162cf"/><text x="64" y="22" font-size="10" font-family="DM Sans" fill="#31435b">DTC</text></g>
+        <g transform="translate(33 30)"><rect width="154" height="60" rx="12" fill="#fff" stroke="#e5ebf2"/><text x="15" y="23" font-size="10" font-family="DM Sans" fill="#8190a2" letter-spacing="1">NETWORK COVERAGE</text><text x="15" y="45" font-size="19" font-family="Manrope" font-weight="800" fill="#1b2b43">{{ '{:,}'.format(stats.stops) }}</text><text x="78" y="45" font-size="10" font-family="DM Sans" fill="#8190a2">stops</text></g>
+        <g transform="translate(416 340)"><rect width="170" height="74" rx="13" fill="#fff" stroke="#e5ebf2"/><text x="15" y="24" font-size="10" font-family="DM Sans" fill="#8190a2" letter-spacing="1">SCHEDULED TRIPS</text><text x="15" y="53" font-size="22" font-family="Manrope" font-weight="800" fill="#1b2b43">{{ '{:,}'.format(stats.trips) }}</text><circle cx="145" cy="24" r="6" fill="#20a579"/></g>
+      </svg>
+      <div class="art-caption"><span class="caption-line"></span> A clearer view of your next connection</div>
+    </div>
+  </div>
+</section>
+<section class="stat-strip"><div class="wrap stat-grid"><div class="stat-item"><span class="stat-value">{{ '{:,}'.format(stats.stops) }}</span><span class="stat-label">GTFS stops</span></div><div class="stat-item"><span class="stat-value">{{ '{:,}'.format(stats.routes) }}</span><span class="stat-label">GTFS routes</span></div><div class="stat-item"><span class="stat-value">{{ '{:,}'.format(stats.trips) }}</span><span class="stat-label">scheduled trips</span></div><div class="stat-item"><span class="stat-value">{{ '{:,}'.format(stats.ticket_rows) }}</span><span class="stat-label">October ticket records</span></div></div></section>
+<section class="section-block"><div class="wrap"><div class="section-heading"><div><div class="eyebrow muted-eyebrow">A PRACTICAL JOURNEY TOOL</div><h2>Less guesswork.<br><span>Better connections.</span></h2></div><p>Designed around the information commuters need first: where to board, when the bus leaves, where to change, and what each option costs in time.</p></div><div class="feature-grid"><article class="feature-card"><div class="feature-icon icon-blue">↗</div><h3>Compare journeys</h3><p>See up to three scheduled bus options, including direct trips and one-transfer connections.</p><a href="{{ url_for('demo') }}">Open journey planner <span>→</span></a></article><article class="feature-card"><div class="feature-icon icon-green">◷</div><h3>Understand demand</h3><p>Explore ticket transactions by route and hour to see where and when demand is concentrated.</p><a href="{{ url_for('insights') }}">View data insights <span>→</span></a></article><article class="feature-card"><div class="feature-icon icon-amber">⌁</div><h3>Built for integration</h3><p>Work with official GTFS schedules and an optional GTFS-Realtime vehicle feed.</p><a href="{{ url_for('api_docs') }}">Explore the API <span>→</span></a></article></div></div></section>
+<section class="cta-band"><div class="wrap cta-inner"><div><div class="eyebrow light-eyebrow">START WITH A ROUTE</div><h2>Where do you need to go?</h2><p>Try the planner with Delhi's stop and timetable data. No account required.</p></div><a class="button button-white button-large" href="{{ url_for('demo') }}">Try the live demo <span class="arrow">↗</span></a></div></section>
+<section class="section-block data-note-section"><div class="wrap data-note"><div><div class="eyebrow muted-eyebrow">DATA TRANSPARENCY</div><h2>Clear about what the data can tell us.</h2><p>GTFS provides scheduled routes and times. October ticket transactions provide demand context. They are not GPS traces, so the current journey estimates are timetable-based rather than claims of measured road traffic.</p></div><a class="text-link" href="{{ url_for('insights') }}">See data methodology <span>→</span></a></div></section>
+{% endblock %}

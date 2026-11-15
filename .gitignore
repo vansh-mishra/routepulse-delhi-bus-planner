@@ -1,0 +1,15 @@
+.venv/
+__pycache__/
+*.py[cod]
+.env
+*.log
+data/source/
+data/*.sqlite
+data/*.sqlite-wal
+data/*.sqlite-shm
+data/*.extracting
+.DS_Store
+
+# Prebuilt operational database is included in the downloadable ZIP,
+# but keep it out of ordinary Git pushes (large generated data artifact).
+data/routepulse.sqlite.gz

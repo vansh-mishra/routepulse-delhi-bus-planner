@@ -1,0 +1,57 @@
+<!doctype html>
+<html lang="en" data-theme="light">
+<head>
+  <meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="theme-color" content="#f6f8fc">
+  <script>
+    (function () {
+      try {
+        const saved = localStorage.getItem("routepulse-theme");
+        const preferred = window.matchMedia && window.matchMedia("(prefers-color-scheme: dark)").matches ? "dark" : "light";
+        document.documentElement.dataset.theme = saved || preferred;
+      } catch (_) { document.documentElement.dataset.theme = "light"; }
+    })();
+  </script>
+  <meta name="description" content="RoutePulse — a data-driven Delhi bus journey planner using official GTFS schedules and October 2026 ticketing demand data.">
+  <title>{% block title %}RoutePulse — Delhi Bus Journey Planner{% endblock %}</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700&family=Manrope:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="{{ url_for('static', filename='styles.css') }}">
+  {% block head %}{% endblock %}
+</head>
+<body data-logged-in="{{ 'true' if user else 'false' }}">
+  <header class="topbar">
+    <div class="topbar-inner wrap">
+      <a class="brand" href="{{ url_for('home') }}" aria-label="RoutePulse home">
+        <span class="brand-mark"><svg viewBox="0 0 32 32" aria-hidden="true"><path d="M7 23.5V9.8c0-1.8 1.4-3.2 3.2-3.2h11.6c1.8 0 3.2 1.4 3.2 3.2v13.7"/><path d="M7 14.2h18M10 19h4m4 0h4M11 25h10M11 10.3h10"/><circle cx="11" cy="23.5" r="1.5"/><circle cx="21" cy="23.5" r="1.5"/></svg></span>
+        <span class="brand-copy"><strong>routepulse</strong><small>DELHI BUS INTELLIGENCE</small></span>
+      </a>
+      <nav class="main-nav" aria-label="Main navigation">
+        <a class="{% if request.endpoint=='home' %}active{% endif %}" href="{{ url_for('home') }}">Overview</a>
+        <a class="{% if request.endpoint=='demo' %}active{% endif %}" href="{{ url_for('demo') }}">Journey planner</a>
+        <a class="{% if request.endpoint=='insights' %}active{% endif %}" href="{{ url_for('insights') }}">Data insights</a>
+        <a class="{% if request.endpoint=='api_docs' %}active{% endif %}" href="{{ url_for('api_docs') }}">Developers</a>
+      </nav>
+      <div class="nav-actions">
+        <button class="button button-quiet button-small theme-toggle" id="theme-toggle" type="button" aria-label="Switch to dark theme" aria-pressed="false" title="Change colour theme">
+          <span class="theme-toggle-icon" aria-hidden="true">☾</span><span class="theme-toggle-label">Dark</span>
+        </button>
+        {% if user %}
+          <a class="user-pill" href="{{ url_for('account') }}"><span class="avatar">{{ user[:1]|upper }}</span><span>{{ user }}</span></a>
+          <a class="button button-quiet button-small" href="{{ url_for('logout') }}">Sign out</a>
+        {% else %}
+          <a class="button button-quiet button-small hide-mobile" href="{{ url_for('login') }}">Sign in</a>
+          <a class="button button-dark button-small" href="{{ url_for('signup') }}">Create account</a>
+        {% endif %}
+      </div>
+      <button class="mobile-menu" aria-label="Toggle navigation" onclick="document.body.classList.toggle('nav-open')"><span></span><span></span></button>
+    </div>
+  </header>
+  {% with messages = get_flashed_messages(with_categories=true) %}
+    {% if messages %}<div class="flash-wrap wrap">{% for category, message in messages %}<div class="flash flash-{{ category }}">{{ message }}</div>{% endfor %}</div>{% endif %}
+  {% endwith %}
+  <main>{% block content %}{% endblock %}</main>
+  <footer class="footer"><div class="wrap footer-inner"><div class="footer-brand"><span class="brand-mark small-mark">RP</span><span><strong>routepulse</strong><small>Delhi bus journey intelligence</small></span></div><p>Built for Transport Stack Hackathon 2026 · Problem 1</p><div class="footer-links"><a href="{{ url_for('demo') }}">Try demo</a><a href="{{ url_for('insights') }}">Data insights</a><a href="{{ url_for('api_docs') }}">API</a></div></div></footer>
+  <script src="{{ url_for('static', filename='theme.js') }}"></script>
+  {% block scripts %}{% endblock %}
+</body></html>
